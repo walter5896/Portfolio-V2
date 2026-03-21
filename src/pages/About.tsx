@@ -273,6 +273,15 @@ function About() {
               <span aria-hidden="true">→</span>
             </Link>
 
+            <a
+              href="/Walter-Blundell-Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl px-6 py-3 border border-violet-400/20 bg-gradient-to-r from-violet-500/15 to-cyan-500/10 text-white font-semibold transition-all hover:bg-white/10"
+            >
+              Download Resume
+            </a>
+
             <Link
               to="/contact"
               className="inline-flex items-center gap-2 rounded-xl px-6 py-3 border border-white/15 bg-white/5 text-white font-semibold transition-all hover:bg-white/10"
