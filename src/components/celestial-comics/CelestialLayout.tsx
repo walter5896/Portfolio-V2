@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FileDown, Rocket, Menu, X } from "lucide-react";
+import { Rocket, Menu, X } from "lucide-react";
 import { NavLink, Link, Outlet } from "react-router-dom";
 
 function CelestialLayout() {
@@ -40,7 +40,6 @@ function CelestialLayout() {
               </div>
             </div>
 
-            {/* Desktop nav */}
             <nav className="hidden md:flex items-center gap-1">
               {navItems.map((item) => (
                 <NavLink
@@ -58,14 +57,8 @@ function CelestialLayout() {
                   {item.label}
                 </NavLink>
               ))}
-
-              <button className="ml-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg flex items-center gap-2">
-                <FileDown className="w-4 h-4" />
-                Export PDF
-              </button>
             </nav>
 
-            {/* Mobile menu button */}
             <button
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               className="md:hidden p-2 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-lg transition-colors"
@@ -79,7 +72,6 @@ function CelestialLayout() {
             </button>
           </div>
 
-          {/* Mobile dropdown */}
           {mobileMenuOpen && (
             <div className="md:hidden pb-4">
               <div className="mt-2 space-y-2 rounded-xl border border-purple-500/20 bg-slate-900/80 p-3">
@@ -100,11 +92,6 @@ function CelestialLayout() {
                     {item.label}
                   </NavLink>
                 ))}
-
-                <button className="w-full mt-2 px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg flex items-center justify-center gap-2">
-                  <FileDown className="w-4 h-4" />
-                  Export PDF
-                </button>
               </div>
             </div>
           )}
