@@ -1,51 +1,69 @@
-import { AlertCircle, CheckCircle2, ArrowRight } from "lucide-react";
+import { AlertCircle, CheckCircle2, ArrowRight, Wrench } from "lucide-react";
 
 function Challenges() {
   const challenges = [
     {
-      challenge: "Netlify Deployment Configuration",
-      solution: "Successfully configured build settings and environment variables for Netlify deployment",
-      impact: "Site went live with working CI/CD pipeline for automatic deployments on push",
+      challenge: "Deployment and environment setup were fragile early on",
+      solution:
+        "Stabilized the Netlify deployment pipeline by correcting build settings, environment variable usage, and frontend/backend configuration boundaries so the application could reliably access Supabase and serverless functions.",
+      impact:
+        "Established a dependable production deployment workflow and eliminated configuration errors that were blocking authentication, database connectivity, and checkout logic.",
     },
     {
-      challenge: "Supabase Environment Variable Errors",
-      solution: "Added public-prefixed env vars (PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY) for frontend access",
-      impact: "Fixed 'Cannot read properties of undefined (reading SUPABASE_URL)' errors and enabled database connectivity",
+      challenge: "Authentication behavior needed to remain consistent across a multi-page app",
+      solution:
+        "Centralized auth-dependent UI behavior in shared modules so login state, protected links, and user-specific rendering could behave consistently across profile, voting, navigation, and admin views.",
+      impact:
+        "Created a more coherent user experience and reduced duplicated auth logic across pages that would have become harder to maintain over time.",
     },
     {
-      challenge: "Authentication Flow Across Multiple Pages",
-      solution: "Implemented consistent auth logic across login, signup, profile, and all content pages with centralized auth.js",
-      impact: "Created seamless authentication experience with working login/signup/logout and dynamic UI updates",
+      challenge: "The voting system became increasingly complex as the product evolved",
+      solution:
+        "Refactored voting behavior into a more centralized logic layer that could account for voting period state, user vote history, remaining balances, and page-specific button behavior without scattering those rules throughout the frontend.",
+      impact:
+        "Reduced inconsistencies between views and made the voting lifecycle easier to reason about as additional features such as recanting, bonus votes, and round finalization were introduced.",
     },
     {
-      challenge: "Supabase Email Verification Configuration",
-      solution: "Configured email verification redirect URLs in Supabase and tested signup verification flow",
-      impact: "Users can now verify email addresses with proper redirect handling (email security warnings resolved)",
+      challenge: "Round votes and bonus votes required different long-term behavior",
+      solution:
+        "Separated standard round vote balances from purchased bonus vote balances so each could be managed independently. Round votes reset per cycle, while bonus votes persist and can be awarded through commerce workflows.",
+      impact:
+        "Prevented vote hoarding issues, improved fairness across voting periods, and created a cleaner system for integrating purchases into platform behavior.",
     },
     {
-      challenge: "Stripe Test Mode Integration",
-      solution: "Implemented Netlify serverless function for creating Stripe checkout sessions with test card support",
-      impact: "Full e-commerce checkout flow with success/cancel pages and secure payment processing",
+      challenge: "Natural round closure and manual round closure were not always interpreted the same way",
+      solution:
+        "Aligned the frontend and backend around the idea of an effectively closed round by accounting for end-time expiration, manual closing, and finalized state rather than relying on only one database field.",
+      impact:
+        "Made winner determination more reliable and prevented broken workflows when a round ended naturally without a manual admin action.",
     },
     {
-      challenge: "Row-Level Security Policy Implementation",
-      solution: "Wrote comprehensive RLS policies for every database table covering all CRUD operations",
-      impact: "Database-level security ensures role-based access control even if application logic fails",
+      challenge: "Dynamic DOM updates caused event listeners to fail after re-renders",
+      solution:
+        "Used event delegation and cleaner page-level rendering boundaries so interactions remained stable even when content was regenerated or updated dynamically.",
+      impact:
+        "Improved reliability for voting, saving, unsaving, and admin interactions without requiring brittle listener reattachment patterns everywhere.",
     },
     {
-      challenge: "Save buttons causing JS errors on pages without save functionality",
-      solution: "Removed unused event listeners and created page-specific rendering functions",
-      impact: "Eliminated console errors and improved code clarity",
+      challenge: "Administrative controls needed to be safe, usable, and client-manageable",
+      solution:
+        "Built a protected admin interface backed by Netlify Functions and role-aware UI logic so sensitive actions such as vote adjustments, user role updates, product management, and voting period control remained secure while still being accessible to the client.",
+      impact:
+        "Shifted the project from a developer-maintained build into a platform the client can realistically operate after handoff.",
     },
     {
-      challenge: "Broken event listeners after re-renders",
-      solution: "Implemented event delegation pattern for dynamically generated content",
-      impact: "Vote and save buttons work reliably after UI updates",
+      challenge: "Stripe integration had to do more than just process payments",
+      solution:
+        "Implemented checkout creation and webhook-driven fulfillment logic so successful purchases could update application state and award bonus votes instead of existing as an isolated payment flow.",
+      impact:
+        "Connected e-commerce directly to the platform’s engagement system and turned merchandise purchases into a functional part of the product experience.",
     },
     {
-      challenge: "Admin link visibility broken by hardcoded URLs",
-      solution: "Implemented dynamic script in admin.js responding to auth events",
-      impact: "Admin navigation now shows/hides based on user role automatically",
+      challenge: "Database security could not rely on frontend behavior alone",
+      solution:
+        "Wrote Row-Level Security policies across the major tables to enforce ownership rules, admin permissions, and controlled access for CRUD operations directly at the database layer.",
+      impact:
+        "Added a stronger security foundation and protected core data workflows even if client-side logic was bypassed or misused.",
     },
   ];
 
@@ -56,8 +74,33 @@ function Challenges() {
           Challenges & Resolutions
         </h1>
         <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-          Overcoming technical debt and architectural issues
+          The project’s biggest challenges were less about isolated bugs and
+          more about making multiple systems behave reliably together.
         </p>
+      </div>
+
+      <div className="bg-slate-900/50 border border-purple-500/20 rounded-2xl p-8 md:p-12 backdrop-blur-sm mb-12">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+            <Wrench className="w-6 h-6 text-purple-400" />
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-3">
+              Challenge Profile
+            </h2>
+            <p className="text-slate-300 leading-relaxed">
+              As CelestialComics expanded, the project moved beyond simple page
+              building and into full-system coordination. The hardest parts of
+              development involved keeping authentication, voting state,
+              administrative controls, database security, and Stripe workflows
+              aligned as the platform grew. Many of the challenges were not
+              one-time fixes—they were architectural problems that required more
+              intentional separation of concerns and stronger system-level
+              thinking.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="relative">
@@ -66,28 +109,52 @@ function Challenges() {
         <div className="space-y-12">
           {challenges.map((item, index) => (
             <div key={index} className="relative">
-              <div className="absolute left-6 md:left-1/2 w-4 h-4 bg-purple-500 rounded-full border-4 border-slate-950 transform -translate-x-2 md:-translate-x-2 hidden md:block"></div>
+              <div className="absolute left-6 md:left-1/2 w-4 h-4 bg-purple-500 rounded-full border-4 border-slate-950 transform -translate-x-2 hidden md:block"></div>
 
-              <div className={`md:grid md:grid-cols-2 md:gap-8 ${index % 2 === 0 ? "" : "md:flex-row-reverse"}`}>
-                <div className={`${index % 2 === 0 ? "md:text-right md:pr-12" : "md:col-start-2 md:pl-12"}`}>
+              <div
+                className={`md:grid md:grid-cols-2 md:gap-8 ${
+                  index % 2 === 0 ? "" : "md:flex-row-reverse"
+                }`}
+              >
+                <div
+                  className={`${
+                    index % 2 === 0
+                      ? "md:text-right md:pr-12"
+                      : "md:col-start-2 md:pl-12"
+                  }`}
+                >
                   <div className="bg-slate-900/50 border border-red-500/30 rounded-xl p-6 backdrop-blur-sm mb-4 md:mb-0">
                     <div className="flex items-start gap-3 mb-3">
                       <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
                       <div className="flex-1">
-                        <h3 className="font-medium text-red-300 text-sm mb-1">Challenge</h3>
-                        <p className="text-white text-sm leading-relaxed">{item.challenge}</p>
+                        <h3 className="font-medium text-red-300 text-sm mb-1">
+                          Challenge
+                        </h3>
+                        <p className="text-white text-sm leading-relaxed">
+                          {item.challenge}
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className={`${index % 2 === 0 ? "md:col-start-2 md:pl-12" : "md:col-start-1 md:pr-12"}`}>
+                <div
+                  className={`${
+                    index % 2 === 0
+                      ? "md:col-start-2 md:pl-12"
+                      : "md:col-start-1 md:pr-12"
+                  }`}
+                >
                   <div className="bg-slate-900/50 border border-green-500/30 rounded-xl p-6 backdrop-blur-sm mb-3">
                     <div className="flex items-start gap-3 mb-3">
                       <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
                       <div className="flex-1">
-                        <h3 className="font-medium text-green-300 text-sm mb-1">Solution</h3>
-                        <p className="text-white text-sm leading-relaxed">{item.solution}</p>
+                        <h3 className="font-medium text-green-300 text-sm mb-1">
+                          Solution
+                        </h3>
+                        <p className="text-white text-sm leading-relaxed">
+                          {item.solution}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -95,7 +162,9 @@ function Challenges() {
                   <div className="bg-purple-900/20 border border-purple-500/20 rounded-lg p-4">
                     <div className="flex items-start gap-3">
                       <ArrowRight className="w-4 h-4 text-purple-400 flex-shrink-0 mt-0.5" />
-                      <p className="text-purple-200 text-xs leading-relaxed">{item.impact}</p>
+                      <p className="text-purple-200 text-xs leading-relaxed">
+                        {item.impact}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -109,50 +178,69 @@ function Challenges() {
         <h2 className="text-3xl font-bold text-white mb-8">Key Learnings</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-slate-950/50 rounded-xl p-6">
-            <h3 className="text-lg font-bold text-purple-300 mb-3">Event Delegation</h3>
+            <h3 className="text-lg font-bold text-purple-300 mb-3">
+              System Consistency Matters
+            </h3>
             <p className="text-slate-300 text-sm leading-relaxed">
-              Using event delegation patterns prevents broken listeners when DOM elements are dynamically re-rendered,
-              ensuring reliable user interactions.
+              Frontend and backend logic must agree on shared states like open,
+              closed, and finalized. Even small mismatches in those rules can
+              break important workflows such as vote recanting or winner
+              determination.
             </p>
           </div>
 
           <div className="bg-slate-950/50 rounded-xl p-6">
-            <h3 className="text-lg font-bold text-pink-300 mb-3">Separation of Concerns</h3>
+            <h3 className="text-lg font-bold text-pink-300 mb-3">
+              Separation of Concerns Reduces Fragility
+            </h3>
             <p className="text-slate-300 text-sm leading-relaxed">
-              Creating page-specific rendering functions eliminates confusion and errors, making code more maintainable
-              and reducing coupling.
+              Splitting responsibilities between shared modules, page-level
+              scripts, and protected backend functions made the app easier to
+              debug and significantly reduced the risk of one feature breaking
+              another.
             </p>
           </div>
 
           <div className="bg-slate-950/50 rounded-xl p-6">
-            <h3 className="text-lg font-bold text-purple-300 mb-3">Environment Configuration</h3>
+            <h3 className="text-lg font-bold text-purple-300 mb-3">
+              Security Should Live Below the UI
+            </h3>
             <p className="text-slate-300 text-sm leading-relaxed">
-              Proper management of environment variables is critical for serverless functions to access backend services
-              securely and reliably.
+              Moving access control into Supabase policies and protected
+              serverless functions created much stronger guarantees than relying
+              on hidden buttons or client-side checks alone.
             </p>
           </div>
 
           <div className="bg-slate-950/50 rounded-xl p-6">
-            <h3 className="text-lg font-bold text-pink-300 mb-3">Dynamic UI Updates</h3>
+            <h3 className="text-lg font-bold text-pink-300 mb-3">
+              Real Products Require Operational Thinking
+            </h3>
             <p className="text-slate-300 text-sm leading-relaxed">
-              Event-driven architecture enables reactive UI updates across modules without tight coupling, improving
-              user experience and code quality.
+              Building the app was only part of the challenge. Launch readiness,
+              client handoff, payment ownership, and order fulfillment also
+              shaped how the system needed to be designed.
             </p>
           </div>
         </div>
       </div>
 
       <div className="mt-12 bg-slate-900/50 border border-purple-500/20 rounded-2xl p-8 md:p-12 backdrop-blur-sm">
-        <h2 className="text-3xl font-bold text-white mb-6">Development Approach</h2>
+        <h2 className="text-3xl font-bold text-white mb-6">
+          Development Approach
+        </h2>
         <div className="space-y-6">
           <div className="flex items-start gap-4">
             <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
               <span className="text-purple-400 font-bold">1</span>
             </div>
             <div>
-              <h3 className="font-bold text-white mb-2">Incremental Refactoring</h3>
+              <h3 className="font-bold text-white mb-2">
+                Incremental Refactoring
+              </h3>
               <p className="text-slate-300 text-sm">
-                Tackled one module at a time to avoid breaking existing functionality while making improvements
+                Major changes were introduced one subsystem at a time so core
+                functionality could remain testable while architecture improved.
               </p>
             </div>
           </div>
@@ -164,7 +252,9 @@ function Challenges() {
             <div>
               <h3 className="font-bold text-white mb-2">Testing in Context</h3>
               <p className="text-slate-300 text-sm">
-                Verified each change across all affected pages to ensure consistency and prevent regression
+                Each fix had to be checked across multiple pages and workflows,
+                because changes in authentication, voting, or admin state rarely
+                affected only one view.
               </p>
             </div>
           </div>
@@ -174,9 +264,13 @@ function Challenges() {
               <span className="text-purple-400 font-bold">3</span>
             </div>
             <div>
-              <h3 className="font-bold text-white mb-2">Documentation & Clarity</h3>
+              <h3 className="font-bold text-white mb-2">
+                Build for Maintainability
+              </h3>
               <p className="text-slate-300 text-sm">
-                Maintained clear code structure and naming conventions to support future development and onboarding
+                Refactors were guided not only by what fixed the current issue,
+                but by what would make the codebase safer for future changes,
+                client usage, and platform growth.
               </p>
             </div>
           </div>
