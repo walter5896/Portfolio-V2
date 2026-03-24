@@ -24,6 +24,7 @@ import Architecture from "./components/celestial-comics/Architecture";
 import Improvements from "./components/celestial-comics/Improvements";
 import Challenges from "./components/celestial-comics/Challenges";
 import TechStack from "./components/celestial-comics/TechStack";
+import Handoff from "./components/celestial-comics/Client Handoff";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -60,9 +61,10 @@ function AppLayout() {
         <Route path="/projects/celestial-comics" element={<CelestialComics />}>
           <Route index element={<Overview />} />
           <Route path="architecture" element={<Architecture />} />
+          <Route path="tech-stack" element={<TechStack />} />
           <Route path="improvements" element={<Improvements />} />
           <Route path="challenges" element={<Challenges />} />
-          <Route path="tech-stack" element={<TechStack />} />
+          <Route path="handoff" element={<Handoff />} />
           <Route
             path="*"
             element={<Navigate to="/projects/celestial-comics" replace />}
