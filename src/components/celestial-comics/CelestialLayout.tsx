@@ -8,9 +8,10 @@ function CelestialLayout() {
   const navItems = [
     { to: ".", label: "Overview", end: true },
     { to: "architecture", label: "Architecture" },
+    { to: "tech-stack", label: "Tech Stack" },
     { to: "improvements", label: "Improvements" },
     { to: "challenges", label: "Challenges" },
-    { to: "tech-stack", label: "Tech Stack" },
+    { to: "handoff", label: "Handoff" },
   ];
 
   return (
