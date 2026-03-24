@@ -7,6 +7,7 @@ import {
   Database,
   CreditCard,
   Lock,
+  Layers,
 } from "lucide-react";
 
 function Architecture() {
@@ -16,70 +17,69 @@ function Architecture() {
       title: "Authentication Layer",
       file: "auth.js",
       description:
-        "Secure user login/logout flow with UI updates and event dispatching for cross-script communication.",
+        "Handles login state, logout behavior, conditional UI rendering, and shared authentication checks across the site. This module acts as the foundation for gated features such as profile access, voting, and admin-only controls.",
       color: "purple",
     },
     {
       icon: Vote,
-      title: "Voting & Data Layer",
+      title: "Voting & Business Logic",
       file: "vote.js",
       description:
-        "Core functions for fetching stories with votes, submitting votes, and rendering UI consistently across pages.",
+        "Centralizes story loading, vote totals, user vote state, saved stories, and round/bonus vote handling. This became one of the most critical modules in the system because multiple pages depend on the same voting lifecycle rules.",
       color: "pink",
     },
     {
       icon: Settings,
-      title: "Admin Module",
+      title: "Administrative Control Layer",
       file: "admin.js + admin/index.html",
       description:
-        "Manages fetching users via Netlify serverless functions, rendering editable user role tables, and dynamic navigation.",
+        "Provides a CMS-style control panel for managing users, vote balances, products, stories, story pages, and round timing. This interface was designed so the client could operate the platform without needing direct database or code access.",
       color: "purple",
     },
     {
       icon: CreditCard,
-      title: "Shopping Platform",
+      title: "Commerce Workflow",
       file: "shop.js + create-checkout-session.js",
       description:
-        "Full e-commerce integration with Stripe for secure payment processing via Netlify serverless functions.",
+        "Connects the storefront to Stripe checkout sessions and product-based bonus vote rewards. This layer ties together frontend purchase flows, protected backend session creation, and secure post-payment fulfillment behavior.",
       color: "pink",
     },
     {
       icon: Lock,
-      title: "Row-Level Security",
+      title: "Database Security Model",
       file: "Supabase RLS Policies",
       description:
-        "Comprehensive RLS policies written for every data table ensuring secure, role-based data access control.",
+        "Row-Level Security policies were applied across major tables to enforce ownership rules, role restrictions, and controlled data visibility directly at the database layer. This reduced reliance on frontend-only protection.",
       color: "purple",
     },
     {
       icon: FileCode,
-      title: "Page-Level Scripts",
-      file: "gallery.js, profile.js, story.js, etc.",
+      title: "Page-Level Modules",
+      file: "gallery.js, profile.js, story.js, shop.js, etc.",
       description:
-        "Dedicated JS modules for each page that import shared logic and handle page-specific rendering and events.",
+        "Each major page uses its own script for rendering and interaction logic while importing shared functionality where needed. This kept the application easier to debug and prevented unrelated features from becoming tightly coupled.",
       color: "pink",
     },
     {
       icon: Server,
-      title: "Netlify Functions",
-      file: "functions/*.js",
+      title: "Serverless API Layer",
+      file: "Netlify Functions",
       description:
-        "Serverless backend functions handle secure data fetching, user management, and Stripe checkout sessions.",
+        "Protected backend actions such as role changes, vote adjustments, story/product mutations, winner determination, and Stripe integration were routed through Netlify Functions. This preserved security by keeping sensitive operations off the client.",
       color: "purple",
     },
     {
       icon: Database,
-      title: "Supabase Backend",
-      file: "supabase.js",
+      title: "Relational Backend",
+      file: "Supabase + PostgreSQL",
       description:
-        "Centralized configuration for authentication, real-time database, and storage management with full RLS.",
+        "Supabase provided authentication, storage, and PostgreSQL-backed relational data management. The schema connected users, votes, stories, products, orders, and voting periods into a system that could support both content workflows and transactional logic.",
       color: "pink",
     },
   ];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      
       {/* Header */}
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -87,8 +87,34 @@ function Architecture() {
         </h1>
 
         <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-          A modular system designed for scalability and maintainability
+          A modular full-stack architecture designed to keep business logic
+          maintainable, secure, and scalable as the platform expanded.
         </p>
+      </div>
+
+      {/* Architecture Overview */}
+      <div className="bg-slate-900/50 border border-purple-500/20 rounded-2xl p-8 md:p-12 backdrop-blur-sm mb-12">
+        <div className="flex items-start gap-4 mb-6">
+          <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+            <Layers className="w-6 h-6 text-purple-400" />
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-3">
+              Architectural Approach
+            </h2>
+            <p className="text-slate-300 leading-relaxed">
+              CelestialComics was structured as a modular multi-page application
+              rather than a monolithic frontend. That decision became
+              increasingly important as the project grew beyond static pages and
+              into a system with authentication, timed voting rounds, client
+              administration, product management, Stripe checkout flows, and
+              protected backend operations. Organizing features into dedicated
+              modules made the system easier to scale, easier to debug, and far
+              more resilient during refactors.
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Modules Grid */}
@@ -98,13 +124,11 @@ function Architecture() {
 
           const colorClasses = {
             purple: {
-              bg: "bg-purple-500/20",
               border: "border-purple-500/30",
               text: "text-purple-400",
               icon: "bg-purple-500/20",
             },
             pink: {
-              bg: "bg-pink-500/20",
               border: "border-pink-500/30",
               text: "text-pink-400",
               icon: "bg-pink-500/20",
@@ -143,33 +167,44 @@ function Architecture() {
 
       {/* Separation of Concerns */}
       <div className="mt-12 bg-gradient-to-br from-purple-900/30 to-pink-900/30 border border-purple-500/30 rounded-2xl p-8 md:p-12 backdrop-blur-sm">
-
         <h2 className="text-2xl font-bold text-white mb-6">
           Separation of Concerns
         </h2>
 
-        <div className="space-y-4">
-
-          <p className="text-slate-200">
-            Authentication logic is fully separated from page-specific UI logic.
+        <div className="space-y-4 text-slate-200 leading-relaxed">
+          <p>
+            <span className="text-purple-300 font-medium">
+              Authentication, page rendering, business logic, and protected
+              backend actions
+            </span>{" "}
+            were intentionally separated instead of being mixed into
+            page-specific scripts. This reduced duplication and made it easier
+            to reason about failures when features became more interconnected.
           </p>
 
-          <p className="text-slate-200">
-            Shared modules handle reusable business logic across pages.
+          <p>
+            Shared modules handled reusable workflows such as voting state,
+            balance calculations, saved stories, and session-based user checks,
+            while page-level files were limited to rendering and interaction for
+            a specific view.
           </p>
 
-          <p className="text-slate-200">
-            Admin tools are isolated with role-based permissions.
+          <p>
+            Administrative tools were isolated behind role-based permissions and
+            routed through protected serverless functions, allowing sensitive
+            actions like role changes, vote adjustments, and content management
+            to stay secure.
           </p>
 
-          <p className="text-slate-200">
-            Event-driven patterns allow reactive UI updates.
+          <p>
+            This structure made it possible to expand the app over time without
+            rewriting everything. As new features were added—such as bonus vote
+            logic, Stripe fulfillment, and content upload workflows—the modular
+            architecture supported those additions without collapsing into
+            tightly coupled code.
           </p>
-
         </div>
-
       </div>
-
     </div>
   );
 }
