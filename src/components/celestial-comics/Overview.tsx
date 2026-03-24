@@ -15,8 +15,10 @@ function Overview() {
         </h1>
 
         <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto mb-8">
-          A full-featured comic web application built entirely from scratch, from
-          initial client concept to production deployment
+          A full-stack comic voting and commerce platform built from scratch,
+          transforming a client concept into a production-ready web application
+          with custom content management, structured voting logic, and secure
+          payment workflows.
         </p>
 
         <div className="flex flex-wrap gap-3 justify-center">
@@ -41,7 +43,7 @@ function Overview() {
             <Target className="w-6 h-6 text-purple-400" />
           </div>
           <h3 className="text-2xl font-bold text-white mb-2">15+</h3>
-          <p className="text-slate-300">HTML Pages</p>
+          <p className="text-slate-300">Multi-Page Views</p>
         </div>
 
         <div className="bg-slate-900/50 border border-purple-500/20 rounded-xl p-6 backdrop-blur-sm">
@@ -49,7 +51,7 @@ function Overview() {
             <Layers className="w-6 h-6 text-pink-400" />
           </div>
           <h3 className="text-2xl font-bold text-white mb-2">17+</h3>
-          <p className="text-slate-300">JavaScript Modules</p>
+          <p className="text-slate-300">Modular JavaScript Files</p>
         </div>
 
         <div className="bg-slate-900/50 border border-purple-500/20 rounded-xl p-6 backdrop-blur-sm">
@@ -57,7 +59,7 @@ function Overview() {
             <Zap className="w-6 h-6 text-purple-400" />
           </div>
           <h3 className="text-2xl font-bold text-white mb-2">Full RLS</h3>
-          <p className="text-slate-300">Row-Level Security Policies</p>
+          <p className="text-slate-300">Database Security Policies</p>
         </div>
       </div>
 
@@ -65,39 +67,77 @@ function Overview() {
         <h2 className="text-3xl font-bold text-white mb-6">Project Overview</h2>
         <div className="space-y-4 text-slate-300 leading-relaxed">
           <p>
-            Built from the ground up based on a client's vision, CelestialComics is a{" "}
-            <span className="text-purple-400 font-medium">fully custom-developed</span>{" "}
-            multi-page web application that serves comic enthusiasts through story
-            browsing, voting, saving, administrative user management, and{" "}
-            <span className="text-purple-400 font-medium">
-              e-commerce functionality via Stripe
-            </span>.
+            CelestialComics began as a client-driven concept for an interactive
+            comic platform, but quickly evolved into a much broader full-stack
+            system. At its core, the site allows users to browse stories,
+            participate in timed voting rounds, save content, manage profiles,
+            and purchase merchandise that awards bonus voting power.
           </p>
 
           <p>
-            Developed using{" "}
+            Rather than relying on a front-end framework, the application was
+            built using{" "}
             <span className="text-purple-400 font-medium">
-              pure HTML5, CSS3, and vanilla JavaScript
-            </span>{" "}
-            (no frameworks), the application showcases technical fundamentals and
-            architectural design. The backend leverages{" "}
-            <span className="text-purple-400 font-medium">Supabase</span> for
-            authentication, database management, and real-time data synchronization
-            with{" "}
-            <span className="text-purple-400 font-medium">
-              comprehensive Row-Level Security (RLS) policies
-            </span>{" "}
-            on every data table.
+              HTML5, CSS3, and modular vanilla JavaScript
+            </span>
+            . This approach gave me tighter control over rendering logic, page
+            behavior, debugging, and architecture decisions, while also
+            reinforcing strong foundational development practices.
           </p>
 
           <p>
-            <span className="text-purple-400 font-medium">Netlify</span> provides
-            hosting with{" "}
-            <span className="text-purple-400 font-medium">serverless functions</span>{" "}
-            powering secure backend API endpoints, enabling features like user
-            management and Stripe checkout sessions without exposing sensitive
-            credentials.
+            The backend is powered by{" "}
+            <span className="text-purple-400 font-medium">Supabase</span>,
+            which handles authentication, relational PostgreSQL data storage,
+            and permission control. Every major table was secured with{" "}
+            <span className="text-purple-400 font-medium">
+              Row-Level Security policies
+            </span>{" "}
+            so that user access rules were enforced at the database layer rather
+            than depending only on front-end checks.
           </p>
+
+          <p>
+            Hosting and protected server-side operations were handled through{" "}
+            <span className="text-purple-400 font-medium">Netlify</span> and{" "}
+            <span className="text-purple-400 font-medium">
+              serverless functions
+            </span>
+            , allowing sensitive logic—such as vote management, admin actions,
+            and Stripe checkout session creation—to remain secure and separate
+            from public client code.
+          </p>
+
+          <p>
+            The final system combines content management, voting lifecycle
+            control, user permissions, and{" "}
+            <span className="text-purple-400 font-medium">
+              Stripe-powered e-commerce
+            </span>{" "}
+            into a single production-ready platform built to be maintainable,
+            scalable, and transferable to the client after development.
+          </p>
+        </div>
+      </div>
+
+      <div className="bg-slate-900/50 border border-purple-500/20 rounded-2xl p-8 md:p-12 backdrop-blur-sm mb-12">
+        <h2 className="text-3xl font-bold text-white mb-6">System Scope</h2>
+        <div className="space-y-4 text-slate-300 leading-relaxed">
+          <p>
+            Although the site presents itself as a comic platform, the actual
+            system scope is closer to a lightweight content and engagement
+            platform. The application had to support both public user-facing
+            interactions and private administrative workflows without requiring
+            direct database access from the client.
+          </p>
+
+          <ul className="list-disc list-inside space-y-2 text-slate-300">
+            <li>Timed voting rounds with open, closed, and finalized states</li>
+            <li>Persistent bonus vote rewards tied to merchandise purchases</li>
+            <li>Administrative story, product, and user management tools</li>
+            <li>Protected backend operations through serverless functions</li>
+            <li>Role-based data access and moderation controls</li>
+          </ul>
         </div>
       </div>
 
@@ -110,11 +150,14 @@ function Overview() {
           <div>
             <h2 className="text-2xl font-bold text-white mb-4">Key Objective</h2>
             <p className="text-slate-200 leading-relaxed">
-              Refactor a fragile app architecture into a{" "}
+              Turn an early, fragile concept into a{" "}
               <span className="text-purple-300 font-medium">
-                stable, modular, and scalable system
+                stable, modular, and scalable production system
               </span>{" "}
-              with clean separation of concerns and user-friendly admin controls.
+              capable of supporting structured voting rounds, secure user
+              authentication, administrative content management, and integrated
+              commerce workflows—while also making the platform manageable for
+              the client after handoff.
             </p>
           </div>
         </div>
@@ -122,6 +165,16 @@ function Overview() {
 
       <div className="mt-12 bg-slate-900/50 border border-purple-500/20 rounded-2xl p-8 md:p-12 backdrop-blur-sm">
         <h2 className="text-3xl font-bold text-white mb-6">Project Structure</h2>
+
+        <div className="mb-6">
+          <p className="text-slate-300 leading-relaxed">
+            The project was organized as a multi-page application with
+            dedicated modules for authentication, voting, profile management,
+            storefront logic, and administration. This modular file structure
+            was important for keeping features isolated, reducing regressions,
+            and making the codebase easier to scale as the platform expanded.
+          </p>
+        </div>
 
         <div className="bg-slate-950/80 rounded-lg p-6 font-mono text-sm overflow-x-auto">
           <div className="text-slate-400">
