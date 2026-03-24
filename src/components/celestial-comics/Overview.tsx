@@ -1,6 +1,17 @@
-import { Target, Layers, Zap } from "lucide-react";
+import { useState } from "react";
+import {
+  Target,
+  Layers,
+  Zap,
+  ChevronRight,
+  ChevronDown,
+  Folder,
+  FileCode,
+} from "lucide-react";
 
 function Overview() {
+  const [showFullStructure, setShowFullStructure] = useState(false);
+
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-20">
@@ -103,9 +114,9 @@ function Overview() {
             <span className="text-purple-400 font-medium">
               serverless functions
             </span>
-            , allowing sensitive logic—such as vote management, admin actions,
-            and Stripe checkout session creation—to remain secure and separate
-            from public client code.
+            , allowing sensitive logic such as vote management, admin actions,
+            role updates, and Stripe checkout session creation to remain secure
+            and separate from public client code.
           </p>
 
           <p>
@@ -156,7 +167,7 @@ function Overview() {
               </span>{" "}
               capable of supporting structured voting rounds, secure user
               authentication, administrative content management, and integrated
-              commerce workflows—while also making the platform manageable for
+              commerce workflows while also making the platform manageable for
               the client after handoff.
             </p>
           </div>
@@ -164,41 +175,278 @@ function Overview() {
       </div>
 
       <div className="mt-12 bg-slate-900/50 border border-purple-500/20 rounded-2xl p-8 md:p-12 backdrop-blur-sm">
-        <h2 className="text-3xl font-bold text-white mb-6">Project Structure</h2>
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-6">
+          <div className="max-w-3xl">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Project Structure
+            </h2>
+            <p className="text-slate-300 leading-relaxed">
+              The project was organized as a multi-page application with
+              dedicated modules for authentication, voting, profile management,
+              storefront logic, administration, and shared utilities. As the
+              platform expanded, maintaining a modular file structure became
+              critical for isolating features, reducing regressions, and keeping
+              the codebase maintainable.
+            </p>
+          </div>
 
-        <div className="mb-6">
-          <p className="text-slate-300 leading-relaxed">
-            The project was organized as a multi-page application with
-            dedicated modules for authentication, voting, profile management,
-            storefront logic, and administration. This modular file structure
-            was important for keeping features isolated, reducing regressions,
-            and making the codebase easier to scale as the platform expanded.
-          </p>
+          <button
+            type="button"
+            onClick={() => setShowFullStructure((prev) => !prev)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-purple-500/30 bg-purple-500/10 text-purple-200 hover:bg-purple-500/20 transition-colors shrink-0"
+          >
+            {showFullStructure ? (
+              <>
+                <ChevronDown className="w-4 h-4" />
+                Collapse
+              </>
+            ) : (
+              <>
+                <ChevronRight className="w-4 h-4" />
+                Expand
+              </>
+            )}
+          </button>
         </div>
 
         <div className="bg-slate-950/80 rounded-lg p-6 font-mono text-sm overflow-x-auto">
-          <div className="text-slate-400">
-            <div className="text-purple-400">/gallery</div>
-            <div className="ml-4">index.html</div>
-            <div className="ml-4">story.html</div>
+          <div className="space-y-1 text-slate-300 min-w-[720px]">
+            <div className="flex items-center gap-2 text-purple-300">
+              <Folder className="w-4 h-4" />
+              <span>/</span>
+            </div>
 
-            <div className="text-purple-400 mt-2">/js</div>
-            <div className="ml-4">admin.js</div>
-            <div className="ml-4">auth-signup.js</div>
-            <div className="ml-4">auth.js</div>
-            <div className="ml-4">gallery.js</div>
-            <div className="ml-4">profile.js</div>
-            <div className="ml-4">shop.js</div>
-            <div className="ml-4">vote.js</div>
-            <div className="text-slate-600 ml-4">...</div>
+            <div className="ml-6 flex items-center gap-2">
+              <FileCode className="w-4 h-4 text-slate-500" />
+              <span>index.html</span>
+            </div>
 
-            <div className="text-purple-400 mt-2">/login</div>
-            <div className="ml-4">index.html</div>
-            <div className="ml-4">signup.html</div>
+            <div className="ml-6 flex items-center gap-2 text-purple-300">
+              <Folder className="w-4 h-4" />
+              <span>/gallery</span>
+            </div>
+            <div className="ml-12 flex items-center gap-2">
+              <FileCode className="w-4 h-4 text-slate-500" />
+              <span>index.html</span>
+            </div>
+            <div className="ml-12 flex items-center gap-2">
+              <FileCode className="w-4 h-4 text-slate-500" />
+              <span>story.html</span>
+            </div>
 
-            <div className="text-purple-400 mt-2">/admin</div>
-            <div className="ml-4">index.html</div>
-            <div className="text-slate-600 mt-2">...</div>
+            <div className="ml-6 flex items-center gap-2 text-purple-300">
+              <Folder className="w-4 h-4" />
+              <span>/vote</span>
+            </div>
+            <div className="ml-12 flex items-center gap-2">
+              <FileCode className="w-4 h-4 text-slate-500" />
+              <span>index.html</span>
+            </div>
+
+            <div className="ml-6 flex items-center gap-2 text-purple-300">
+              <Folder className="w-4 h-4" />
+              <span>/shop</span>
+            </div>
+            <div className="ml-12 flex items-center gap-2">
+              <FileCode className="w-4 h-4 text-slate-500" />
+              <span>index.html</span>
+            </div>
+            <div className="ml-12 flex items-center gap-2">
+              <FileCode className="w-4 h-4 text-slate-500" />
+              <span>success.html</span>
+            </div>
+            <div className="ml-12 flex items-center gap-2">
+              <FileCode className="w-4 h-4 text-slate-500" />
+              <span>cancel.html</span>
+            </div>
+
+            <div className="ml-6 flex items-center gap-2 text-purple-300">
+              <Folder className="w-4 h-4" />
+              <span>/profile</span>
+            </div>
+            <div className="ml-12 flex items-center gap-2">
+              <FileCode className="w-4 h-4 text-slate-500" />
+              <span>index.html</span>
+            </div>
+
+            <div className="ml-6 flex items-center gap-2 text-purple-300">
+              <Folder className="w-4 h-4" />
+              <span>/login</span>
+            </div>
+            <div className="ml-12 flex items-center gap-2">
+              <FileCode className="w-4 h-4 text-slate-500" />
+              <span>index.html</span>
+            </div>
+            <div className="ml-12 flex items-center gap-2">
+              <FileCode className="w-4 h-4 text-slate-500" />
+              <span>signup.html</span>
+            </div>
+
+            <div className="ml-6 flex items-center gap-2 text-purple-300">
+              <Folder className="w-4 h-4" />
+              <span>/team</span>
+            </div>
+            <div className="ml-12 flex items-center gap-2">
+              <FileCode className="w-4 h-4 text-slate-500" />
+              <span>index.html</span>
+            </div>
+
+            <div className="ml-6 flex items-center gap-2 text-purple-300">
+              <Folder className="w-4 h-4" />
+              <span>/admin</span>
+            </div>
+            <div className="ml-12 flex items-center gap-2">
+              <FileCode className="w-4 h-4 text-slate-500" />
+              <span>index.html</span>
+            </div>
+
+            <div className="ml-6 flex items-center gap-2 text-pink-300 mt-4">
+              <Folder className="w-4 h-4" />
+              <span>/js</span>
+            </div>
+
+            <div className="ml-12 grid grid-cols-1 md:grid-cols-2 gap-y-1 gap-x-10">
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-slate-500" />
+                <span>admin.js</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-slate-500" />
+                <span>admin-nav.js</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-slate-500" />
+                <span>auth.js</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-slate-500" />
+                <span>auth-signup.js</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-slate-500" />
+                <span>env.js</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-slate-500" />
+                <span>gallery.js</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-slate-500" />
+                <span>profile.js</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-slate-500" />
+                <span>shop.js</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-slate-500" />
+                <span>singleStoryRestrict.js</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-slate-500" />
+                <span>story.js</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-slate-500" />
+                <span>utils.js</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-slate-500" />
+                <span>vote.js</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-slate-500" />
+                <span>votingStateControl.js</span>
+              </div>
+            </div>
+
+            {showFullStructure && (
+              <>
+                <div className="ml-6 flex items-center gap-2 text-pink-300 mt-4">
+                  <Folder className="w-4 h-4" />
+                  <span>/.netlify/functions</span>
+                </div>
+
+                <div className="ml-12 grid grid-cols-1 md:grid-cols-2 gap-y-1 gap-x-10">
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>close-voting-period.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>create-checkout-session.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>create-product.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>create-story.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>delete-product-image.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>delete-story-cover.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>delete-story-page.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>delete-story.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>determine-winner.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>get-users.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>set-voting-period.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>stripe-webhook.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>update-product.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>update-story.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>update-user-role.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>update-user-votes.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>upload-product-image.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>upload-story-cover.js</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-slate-500" />
+                    <span>upload-story-page.js</span>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
